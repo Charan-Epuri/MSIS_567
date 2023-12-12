@@ -25,6 +25,7 @@
 //                 sh 'docker login registry.gitlab.com -u $IMAGE_CREDS_USR -p $IMAGE_CREDS_PSW'
 //                 sh  '''cd codes
 //                        ls -a
+//                        docker build --no-cache -t $REGISTRY_URL/custflaskapi:113 -f Dockerfile-api .
 //                        docker build --no-cache -t $REGISTRY_URL/reactclient:113 -f Dockerfile-clientV2 .
 //                        docker push $REGISTRY_URL/reactclient:113''' 
 //                 //-----------------upload kube file to s3--------------------
