@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: reactapp
+
+---
+# Nodeport Service to for backend DB
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: reactapp
+  labels:
+    db: mongo
+spec:
+  type: NodePort
+  selector:
+    db: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+#Nodeport service for react client
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-client
+  namespace: reactapp
+  labels:
+    web: reactclient
+spec:
+  type: NodePort
+  selector:
+    web: reactclient
+  ports:
+    - port: 80
+      nodePort: 30020
+      targetPort: 80
+---
+# secret to pull image
+apiVersion: v1
+kind: Secret
+metadata:
+  name: appregistrykey
+  namespace: reactapp
+data:
+  .dockerconfigjson: <base64_encoded_file>
+type: kubernetes.io/dockerconfigjson
+
+---
+# Deployment for react client
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  namespace: reactapp
+  labels:
+    web: reactclient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      web: reactclient
+  template:
+    metadata:
+      name: client-pods
+      namespace: reactapp
+      labels:
+        web: reactclient
+    spec:
+      containers:
+      - name: client-containers
+        image: <priv_registry>/reactclient:113
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: appregistrykey
