@@ -25,7 +25,6 @@
 //                 sh 'docker login registry.gitlab.com -u $IMAGE_CREDS_USR -p $IMAGE_CREDS_PSW'
 //                 sh  '''cd codes
 //                        ls -a
-//                        docker build --no-cache -t $REGISTRY_URL/custflaskapi:113 -f Dockerfile-api .
 //                        docker build --no-cache -t $REGISTRY_URL/reactclient:113 -f Dockerfile-clientV2 .
 //                        docker push $REGISTRY_URL/reactclient:113''' 
 //                 //-----------------upload kube file to s3--------------------
@@ -108,7 +107,7 @@
 //                       cd kubenode
 //                       knife ssh name:$MASTERNODE "$KUBEFILECMD" --ssh-user ubuntu -i "$PWD/.chef/id_rsa.pem" --attribute cloud.public_hostname
 //                       knife ssh name:$MASTERNODE "$KUBEDEPLOYCMD" --ssh-user ubuntu -i "$PWD/.chef/id_rsa.pem" --attribute cloud.public_hostname'''
-                      
+
 //             }
 //             post{
 //                 success{
@@ -121,7 +120,7 @@
 //             }
 
 //         }
-        
+
 //         stage('pause for testing'){
 //             environment{
 //                 KUBEDELCMD="kubectl delete -f /tmp/msis_567-$BUILD_NUMBER-1.yml"
@@ -163,7 +162,7 @@
 //                 slackSend color: "good", message: "Build#: $BUILD_NUMBER: cleaned up and removed test node"
 //                 slackSend color: "good", message: "Here is the path to the updated YAML file: s3://kubefiles-ac/msis_567-$BUILD_NUMBER-1.yml"
 //             }
-            
+
 //         }
 
 //     }
